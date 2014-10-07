@@ -5,25 +5,6 @@
 #include <set>
 #include <string>
 
-enum ClientError {
-    /*
-     * Set, Get or Remove failed because they key was not found.
-     */
-    KEY_NOT_FOUND,
-    /*
-     * Create operation failed because the key has no parent.
-     */
-    NO_PARENT,
-    /*
-     * The key has children so it cannot be deleted.
-     */
-    HAS_CHILDREN,
-    /*
-     * The key path violates our formatting rules
-     */
-    MALFORMED_KEY,
-};
-
 /*
  * For server and/or library errors that must delivered to the client
  */

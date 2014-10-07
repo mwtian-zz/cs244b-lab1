@@ -63,8 +63,12 @@ Client::create(const std::string &path, const std::string &val)
     args.val = val;
 
     auto r = client->create(args);
+    if (r->type() == RESULT)
+    {
+        return r->success();
+    }
 
-    return *r;
+    return false;
 }
 
 bool

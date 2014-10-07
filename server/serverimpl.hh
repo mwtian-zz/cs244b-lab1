@@ -5,9 +5,8 @@
 #ifndef __XDR_SERVER_SERVERIMPL_HH_INCLUDED__
 #define __XDR_SERVER_SERVERIMPL_HH_INCLUDED__ 1
 
-#include "serverdb.h"
-
 #include "include/server.hh"
+#include "serverdb.h"
 
 class api_v1_server {
 public:
@@ -16,9 +15,12 @@ public:
   api_v1_server() : db("kvstore.db") { }
   ~api_v1_server() {}
 
-  std::unique_ptr<bool> create(std::unique_ptr<kvpair> arg);
-  std::unique_ptr<bool> remove(std::unique_ptr<longstring> arg);
-  std::unique_ptr<bool> set(std::unique_ptr<kvpair> arg);
+  std::unique_ptr<bool_err> create(std::unique_ptr<kvpair> arg);
+  std::unique_ptr<bool_err> remove(std::unique_ptr<longstring> arg);
+  std::unique_ptr<void_err> set(std::unique_ptr<kvpair> arg);
+  std::unique_ptr<string_err> get(std::unique_ptr<longstring> arg);
+  std::unique_ptr<stringvector_err> list(std::unique_ptr<longstring> arg);
+
 private:
   ServerDB db;
 };
