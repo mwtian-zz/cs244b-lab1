@@ -1,11 +1,11 @@
-#include "util.hh"
+#include "serverutil.hh"
 
 #include <locale>
 
 const char SEPARATOR = '/';
 
 bool 
-validateKey(const std::string &key) {
+isValidKey(const std::string &key) {
   if (key.empty()) {
     return true;
   }

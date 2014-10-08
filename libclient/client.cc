@@ -63,9 +63,10 @@ Client::create(const std::string &path, const std::string &val)
     args.val = val;
 
     auto r = client->create(args);
-    if (r->type() == RESULT)
-    {
+    if (r->type() == RESULT) {
         return r->success();
+    } else {
+        throw ClientException(r->error());
     }
 
     return false;
@@ -74,28 +75,55 @@ Client::create(const std::string &path, const std::string &val)
 bool
 Client::remove(const std::string &path)
 {
-    // TODO: Fill me in
+    auto r = client->remove(path);
+
+    if (r->type() == RESULT) {
+        return r->success();
+    } else {
+        throw ClientException(r->error());
+    }
+
     return false;
 }
 
 std::string
 Client::get(const std::string &path)
 {
-    // TODO: Fill me in
+    auto r = client->get(path);
+
+    if (r->type() == RESULT) {
+        return r->value();
+    } else {
+        throw ClientException(r->error());
+    }
+
     return "";
 }
 
 void
 Client::set(const std::string &path, const std::string &val)
 {
-    // TODO: Fill me in
+    kvpair args;
+
+    args.key = path;
+    args.val = val;
+
+    auto r = client->set(args);
+
+    if (r->type() == ERROR) {
+        throw ClientException(r->error());
+    }
 }
 
 std::set<string>
 Client::list(const string &path)
 {
-    std::set<string> r;
-    // TODO: Fill me in
-    return r;
+    auto r = client->list(path);
+    
+    if (r->type() == ERROR) {
+        throw ClientException(r->error());
+    }
+    
+    return std::set<string>(r->vector().begin(), r->vector().end());
 }
 

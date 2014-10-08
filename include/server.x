@@ -8,7 +8,7 @@ struct kvpair {
 
 enum ReturnType {
   RESULT,
-  ERROR_CODE
+  ERROR
 };
 
 enum ClientError {
@@ -33,28 +33,28 @@ enum ClientError {
 union bool_err switch (ReturnType type) {
 case RESULT:
   bool success;
-case ERROR_CODE:
+case ERROR:
   ClientError error;
 };
 
 union void_err switch (ReturnType type) {
 case RESULT:
   void;
-case ERROR_CODE:
+case ERROR:
   ClientError error;
 };
 
 union string_err switch (ReturnType type) {
 case RESULT:
   longstring value;
-case ERROR_CODE:
+case ERROR:
   ClientError error;
 };
 
 union stringvector_err switch (ReturnType type) {
 case RESULT:
   stringvector vector;
-case ERROR_CODE:
+case ERROR:
   ClientError error;
 };
 

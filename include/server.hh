@@ -37,7 +37,7 @@ template<> struct xdr_traits<::kvpair>
 
 enum ReturnType : std::uint32_t {
   RESULT,
-  ERROR_CODE,
+  ERROR,
 };
 namespace xdr {
 template<> struct xdr_traits<::ReturnType>
@@ -48,8 +48,8 @@ template<> struct xdr_traits<::ReturnType>
     switch (val) {
     case ::RESULT:
       return "RESULT";
-    case ::ERROR_CODE:
-      return "ERROR_CODE";
+    case ::ERROR:
+      return "ERROR";
     default:
       return nullptr;
     }
@@ -98,7 +98,7 @@ public:
 
   static constexpr int _xdr_field_number(std::uint32_t which) {
     return which == RESULT ? 1
-      : which == ERROR_CODE ? 2
+      : which == ERROR ? 2
       : -1;
   }
   template<typename _F, typename...A> static bool
@@ -107,7 +107,7 @@ public:
     case RESULT:
       _f(&bool_err::success_, std::forward<A>(a)...);
       return true;
-    case ERROR_CODE:
+    case ERROR:
       _f(&bool_err::error_, std::forward<A>(a)...);
       return true;
     }
@@ -201,7 +201,7 @@ template<> struct xdr_traits<::bool_err> : xdr_traits_base {
 
   static constexpr const char *union_field_name(std::uint32_t which) {
     return which == RESULT ? "success"
-      : which == ERROR_CODE ? "error"
+      : which == ERROR ? "error"
       : nullptr;
   }
   static const char *union_field_name(const union_type &u) {
@@ -244,7 +244,7 @@ public:
 
   static constexpr int _xdr_field_number(std::uint32_t which) {
     return which == RESULT ? 0
-      : which == ERROR_CODE ? 1
+      : which == ERROR ? 1
       : -1;
   }
   template<typename _F, typename...A> static bool
@@ -252,7 +252,7 @@ public:
     switch (which) {
     case RESULT:
       return true;
-    case ERROR_CODE:
+    case ERROR:
       _f(&void_err::error_, std::forward<A>(a)...);
       return true;
     }
@@ -336,7 +336,7 @@ template<> struct xdr_traits<::void_err> : xdr_traits_base {
 
   static constexpr const char *union_field_name(std::uint32_t which) {
     return which == RESULT ? nullptr
-      : which == ERROR_CODE ? "error"
+      : which == ERROR ? "error"
       : nullptr;
   }
   static const char *union_field_name(const union_type &u) {
@@ -380,7 +380,7 @@ public:
 
   static constexpr int _xdr_field_number(std::uint32_t which) {
     return which == RESULT ? 1
-      : which == ERROR_CODE ? 2
+      : which == ERROR ? 2
       : -1;
   }
   template<typename _F, typename...A> static bool
@@ -389,7 +389,7 @@ public:
     case RESULT:
       _f(&string_err::value_, std::forward<A>(a)...);
       return true;
-    case ERROR_CODE:
+    case ERROR:
       _f(&string_err::error_, std::forward<A>(a)...);
       return true;
     }
@@ -483,7 +483,7 @@ template<> struct xdr_traits<::string_err> : xdr_traits_base {
 
   static constexpr const char *union_field_name(std::uint32_t which) {
     return which == RESULT ? "value"
-      : which == ERROR_CODE ? "error"
+      : which == ERROR ? "error"
       : nullptr;
   }
   static const char *union_field_name(const union_type &u) {
@@ -527,7 +527,7 @@ public:
 
   static constexpr int _xdr_field_number(std::uint32_t which) {
     return which == RESULT ? 1
-      : which == ERROR_CODE ? 2
+      : which == ERROR ? 2
       : -1;
   }
   template<typename _F, typename...A> static bool
@@ -536,7 +536,7 @@ public:
     case RESULT:
       _f(&stringvector_err::vector_, std::forward<A>(a)...);
       return true;
-    case ERROR_CODE:
+    case ERROR:
       _f(&stringvector_err::error_, std::forward<A>(a)...);
       return true;
     }
@@ -630,7 +630,7 @@ template<> struct xdr_traits<::stringvector_err> : xdr_traits_base {
 
   static constexpr const char *union_field_name(std::uint32_t which) {
     return which == RESULT ? "vector"
-      : which == ERROR_CODE ? "error"
+      : which == ERROR ? "error"
       : nullptr;
   }
   static const char *union_field_name(const union_type &u) {

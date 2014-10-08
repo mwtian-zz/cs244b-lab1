@@ -1,5 +1,5 @@
 
-SERVER_SRC := server/util.cc \
+SERVER_SRC := server/serverutil.cc \
 			  server/server.cc \
 			  server/serverimpl.cc \
 			  server/serverdb.cc \
