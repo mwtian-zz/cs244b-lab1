@@ -5,6 +5,11 @@
 #include <iostream>
 
 #include "server/serverimpl.hh"
+#include "server/util.hh"
+
+api_v1_server::api_v1_server() : db("kvstore.db") {
+
+}
 
 std::unique_ptr<bool_err>
 api_v1_server::create(std::unique_ptr<kvpair> arg)

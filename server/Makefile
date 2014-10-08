@@ -1,5 +1,6 @@
 
-SERVER_SRC := server/server.cc \
+SERVER_SRC := server/util.cc \
+			  server/server.cc \
 			  server/serverimpl.cc \
 			  server/serverdb.cc \
 			  server/sqlstmt.cc \

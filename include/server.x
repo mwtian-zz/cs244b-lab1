@@ -1,4 +1,3 @@
-
 typedef string longstring<>;
 typedef longstring stringvector<>;
 
