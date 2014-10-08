@@ -29,21 +29,19 @@ api_v1_server::create(std::unique_ptr<kvpair> arg)
   const std::string &key = arg->key;
   const std::string &val = arg->val;
 
-  if (!db.hasKey(getParentKey(key))) {
+  if (key == "/") {
+    res->error() = INVALID_OPERATION;
+  } else if (!db.hasKey(getParentKey(key))) {
     res->error() = NO_PARENT;
-    return res;
-  }
-  
-  bool hasKey = db.hasKey(key);
-  if (hasKey) {
-    std::cout << "Created " << key << " Failed" << std::endl;
   } else {
-    db.set(key, val);
-    std::cout << "Created " << key << " Succeded" << std::endl;
+    bool hasKey = db.hasKey(key);
+    if (!hasKey) {
+      db.set(key, val);
+      std::cout << "Create " << key << " Succeded" << std::endl;
+    }
+    res->type(RESULT);
+    res->value() = !hasKey;
   }
-
-  res->type(RESULT);
-  res->success() = !hasKey;
 
   return res;
 }
@@ -61,20 +59,17 @@ api_v1_server::remove(std::unique_ptr<longstring> arg)
 
   const std::string &key = *arg;
 
-  if (!db.hasKey(key)) {
+  if (key == "/") {
+    res->error() = INVALID_OPERATION;
+  } else if (!db.hasKey(key)) {
     res->error() = KEY_NOT_FOUND;
-    return res;
-  }
-
-  if (db.list(key).size() > 0) {
+  } else if (db.list(key).size() > 0) {
     res->error() = HAS_CHILDREN;
-    return res;
+  } else {
+    db.remove(key);
+    res->type(RESULT);
+    res->value() = true;
   }
-
-  db.remove(key);
-
-  res->type(RESULT);
-  res->success() = true;
 
   return res;
 }
@@ -93,14 +88,14 @@ api_v1_server::set(std::unique_ptr<kvpair> arg)
   const std::string &key = arg->key;
   const std::string &val = arg->val;
 
-  if (!db.hasKey(key)) {
+  if (key == "/") {
+    res->error() = INVALID_OPERATION;
+  } else if (!db.hasKey(key)) {
     res->error() = KEY_NOT_FOUND;
-    return res;
+  } else {
+    db.set(key, val);
+    res->type(RESULT);
   }
-
-  db.set(key, val);
-
-  res->type(RESULT);
 
   return res;
 }
@@ -118,13 +113,14 @@ api_v1_server::get(std::unique_ptr<longstring> arg)
 
   const std::string &key = *arg;
 
-  if (!db.hasKey(key)) {
+  if (key == "/") {
+    res->error() = INVALID_OPERATION;
+  } else if (!db.hasKey(key)) {
     res->error() = KEY_NOT_FOUND;
-    return res;
+  } else {
+    res->type(RESULT);
+    res->value() = db.get(key);
   }
-
-  res->type(RESULT);
-  res->value() = db.get(key);
 
   return res;
 }
@@ -140,16 +136,15 @@ api_v1_server::list(std::unique_ptr<longstring> arg)
     return res;
   }
 
-  const std::string &key = *arg;
+  std::string key = *arg == "/" ? "" : *arg;
 
   if (!db.hasKey(key)) {
     res->error() = KEY_NOT_FOUND;
-    return res;
-  }
-
-  res->type(RESULT);
-  for (const std::string &str : db.list(key)) {
-    res->vector().push_back(str);
+  } else {
+    res->type(RESULT);
+    for (const std::string &path : db.list(key)) {
+      res->value().push_back(getNodeName(path));
+    }
   }
   
   return res;

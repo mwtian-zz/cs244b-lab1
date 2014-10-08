@@ -6,23 +6,26 @@ const char SEPARATOR = '/';
 
 bool 
 isValidKey(const std::string &key) {
-  if (key.empty()) {
-    return true;
+  if (key.empty() || key[0] != SEPARATOR) {
+    return false;
   }
 
-  if (key[0] != SEPARATOR) {
-    return false;
+  if (key.length() == 1) {
+    return true;
   }
 
   int prev = 0;
   int i = 1;
   while (i <= key.length()) {
+    // Making sure each node's name is non-empty.
+    // and path does not end on '/'
     if (key[i] == SEPARATOR || i == key.length()) {
       if (i - prev == 1) {
         return false;
       }
       prev = i;
-    } else if (!std::isalnum(key[i])) {
+    // names can only contain letters, numbers, underscores and slashes
+    } else if (!(std::isalnum(key[i]) || key[i] == '_')) {
       return false;
     }
     i++;
@@ -37,24 +40,18 @@ getParentKey(const std::string &key) {
   return key.substr(0, last);
 }
 
-std::string 
-setToString(const std::set<std::string> &set) {
-  std::string result;
-  for (const std::string &str : set) {
-    result += str + ",";
-  }
-  return result;
+std::string
+getNodeName(const std::string &path) {
+  int begin = path.find_last_of(SEPARATOR) + 1;
+  int len = path.length() - begin;
+  return path.substr(begin, len);
 }
 
-std::vector<std::string> 
-stringToVector(const std::string &str) {
-  std::vector<std::string> result;
-  int prev = 0;
-  for (int i = 0; i < str.length(); i++) {
-    if (str[i] == ',') {
-      result.emplace_back(str.substr(prev, i - prev));
-      prev = i + 1;
-    }
-  }
-  return result;
-}
+// template<typename T>
+// std::string logResult(const std::string &content, const T &res) {
+//   if (res->type() == RESULT) {
+//     return content + " " + "Succeeded";
+//   } else {
+//     return content + " " + "Failed";
+//   }
+// }

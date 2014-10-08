@@ -63,13 +63,12 @@ Client::create(const std::string &path, const std::string &val)
     args.val = val;
 
     auto r = client->create(args);
-    if (r->type() == RESULT) {
-        return r->success();
-    } else {
+
+    if (r->type() == ERROR) {
         throw ClientException(r->error());
     }
 
-    return false;
+    return r->value();
 }
 
 bool
@@ -77,13 +76,11 @@ Client::remove(const std::string &path)
 {
     auto r = client->remove(path);
 
-    if (r->type() == RESULT) {
-        return r->success();
-    } else {
+    if (r->type() == ERROR) {
         throw ClientException(r->error());
     }
 
-    return false;
+    return r->value();
 }
 
 std::string
@@ -91,13 +88,11 @@ Client::get(const std::string &path)
 {
     auto r = client->get(path);
 
-    if (r->type() == RESULT) {
-        return r->value();
-    } else {
+    if (r->type() == ERROR) {
         throw ClientException(r->error());
     }
 
-    return "";
+    return r->value();
 }
 
 void
@@ -124,6 +119,6 @@ Client::list(const string &path)
         throw ClientException(r->error());
     }
     
-    return std::set<string>(r->vector().begin(), r->vector().end());
+    return std::set<string>(r->value().begin(), r->value().end());
 }
 

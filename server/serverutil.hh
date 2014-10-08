@@ -9,8 +9,9 @@ bool isValidKey(const std::string &key);
 
 std::string getParentKey(const std::string &key);
 
-std::string setToString(const std::set<std::string> &set);
+std::string getNodeName(const std::string &path);
 
-std::vector<std::string> stringToVector(const std::string &str);
+// template<typename T>
+// std::string logResult(const std::string &content, const T &res);
 
 #endif /* __SERVERUTIL_H__ */

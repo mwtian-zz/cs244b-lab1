@@ -62,6 +62,7 @@ enum ClientError : std::uint32_t {
   NO_PARENT,
   HAS_CHILDREN,
   MALFORMED_KEY,
+  INVALID_OPERATION,
 };
 namespace xdr {
 template<> struct xdr_traits<::ClientError>
@@ -78,6 +79,8 @@ template<> struct xdr_traits<::ClientError>
       return "HAS_CHILDREN";
     case ::MALFORMED_KEY:
       return "MALFORMED_KEY";
+    case ::INVALID_OPERATION:
+      return "INVALID_OPERATION";
     default:
       return nullptr;
     }
@@ -89,7 +92,7 @@ struct bool_err {
 private:
   std::uint32_t type_;
   union {
-    bool success_;
+    bool value_;
     ClientError error_;
   };
 
@@ -105,7 +108,7 @@ public:
   _xdr_with_mem_ptr(_F &_f, std::uint32_t which, A&&...a) {
     switch (which) {
     case RESULT:
-      _f(&bool_err::success_, std::forward<A>(a)...);
+      _f(&bool_err::value_, std::forward<A>(a)...);
       return true;
     case ERROR:
       _f(&bool_err::error_, std::forward<A>(a)...);
@@ -169,15 +172,15 @@ public:
     return *this;
   }
 
-  bool &success() {
+  bool &value() {
     if (_xdr_field_number(type_) == 1)
-      return success_;
-    throw xdr::xdr_wrong_union("bool_err: success accessed when not selected");
+      return value_;
+    throw xdr::xdr_wrong_union("bool_err: value accessed when not selected");
   }
-  const bool &success() const {
+  const bool &value() const {
     if (_xdr_field_number(type_) == 1)
-      return success_;
-    throw xdr::xdr_wrong_union("bool_err: success accessed when not selected");
+      return value_;
+    throw xdr::xdr_wrong_union("bool_err: value accessed when not selected");
   }
   ClientError &error() {
     if (_xdr_field_number(type_) == 2)
@@ -200,7 +203,7 @@ template<> struct xdr_traits<::bool_err> : xdr_traits_base {
   using discriminant_type = decltype(std::declval<union_type>().type());
 
   static constexpr const char *union_field_name(std::uint32_t which) {
-    return which == RESULT ? "success"
+    return which == RESULT ? "value"
       : which == ERROR ? "error"
       : nullptr;
   }
@@ -518,7 +521,7 @@ struct stringvector_err {
 private:
   std::uint32_t type_;
   union {
-    stringvector vector_;
+    stringvector value_;
     ClientError error_;
   };
 
@@ -534,7 +537,7 @@ public:
   _xdr_with_mem_ptr(_F &_f, std::uint32_t which, A&&...a) {
     switch (which) {
     case RESULT:
-      _f(&stringvector_err::vector_, std::forward<A>(a)...);
+      _f(&stringvector_err::value_, std::forward<A>(a)...);
       return true;
     case ERROR:
       _f(&stringvector_err::error_, std::forward<A>(a)...);
@@ -598,15 +601,15 @@ public:
     return *this;
   }
 
-  stringvector &vector() {
+  stringvector &value() {
     if (_xdr_field_number(type_) == 1)
-      return vector_;
-    throw xdr::xdr_wrong_union("stringvector_err: vector accessed when not selected");
+      return value_;
+    throw xdr::xdr_wrong_union("stringvector_err: value accessed when not selected");
   }
-  const stringvector &vector() const {
+  const stringvector &value() const {
     if (_xdr_field_number(type_) == 1)
-      return vector_;
-    throw xdr::xdr_wrong_union("stringvector_err: vector accessed when not selected");
+      return value_;
+    throw xdr::xdr_wrong_union("stringvector_err: value accessed when not selected");
   }
   ClientError &error() {
     if (_xdr_field_number(type_) == 2)
@@ -629,7 +632,7 @@ template<> struct xdr_traits<::stringvector_err> : xdr_traits_base {
   using discriminant_type = decltype(std::declval<union_type>().type());
 
   static constexpr const char *union_field_name(std::uint32_t which) {
-    return which == RESULT ? "vector"
+    return which == RESULT ? "value"
       : which == ERROR ? "error"
       : nullptr;
   }

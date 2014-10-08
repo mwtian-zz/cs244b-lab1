@@ -24,6 +24,8 @@ public:
                 return "HAS CHILDREN";
             case MALFORMED_KEY:
                 return "MALFORMED KEY";
+            case INVALID_OPERATION:
+                return "INVALID OPERATION";
         }
         return "UNKNOWN ERROR CODE";
     }

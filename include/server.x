@@ -27,12 +27,16 @@ enum ClientError {
   /*
   * The key path violates our formatting rules
   */
-  MALFORMED_KEY
+  MALFORMED_KEY,
+  /*
+  * The operation is invalid on the node
+  */
+  INVALID_OPERATION
 };
 
 union bool_err switch (ReturnType type) {
 case RESULT:
-  bool success;
+  bool value;
 case ERROR:
   ClientError error;
 };
@@ -53,7 +57,7 @@ case ERROR:
 
 union stringvector_err switch (ReturnType type) {
 case RESULT:
-  stringvector vector;
+  stringvector value;
 case ERROR:
   ClientError error;
 };
