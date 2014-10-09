@@ -11,7 +11,7 @@ enum ReturnType {
   ERROR
 };
 
-enum ClientError {
+enum ErrorCode {
   /*
   * Set, Get or Remove failed because they key was not found.
   */
@@ -38,28 +38,28 @@ union bool_err switch (ReturnType type) {
 case RESULT:
   bool value;
 case ERROR:
-  ClientError error;
+  ErrorCode error;
 };
 
 union void_err switch (ReturnType type) {
 case RESULT:
   void;
 case ERROR:
-  ClientError error;
+  ErrorCode error;
 };
 
 union string_err switch (ReturnType type) {
 case RESULT:
   longstring value;
 case ERROR:
-  ClientError error;
+  ErrorCode error;
 };
 
 union stringvector_err switch (ReturnType type) {
 case RESULT:
   stringvector value;
 case ERROR:
-  ClientError error;
+  ErrorCode error;
 };
 
 program server_api {

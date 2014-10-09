@@ -8,4 +8,3 @@ shell/%.o: shell/%.cc
 
 shell/shell: $(SHELL_OBJ) libclient/libclient.a
 	$(LD) -o $@ $(LDFLAGS) $(SHELL_OBJ) $(LIBS)
-

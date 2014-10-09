@@ -1,7 +1,7 @@
-
-SERVER_SRC := server/serverutil.cc \
-			  server/server.cc \
+SERVER_SRC := server/server.cc \
+			  server/global.cc \
 			  server/serverimpl.cc \
+			  server/serverutil.cc \
 			  server/serverdb.cc \
 			  server/sqlstmt.cc \
 			  server/sqlite3.c

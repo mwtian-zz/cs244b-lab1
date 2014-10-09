@@ -1,5 +1,5 @@
-
-LIBCLIENT_SRC := libclient/client.cc
+LIBCLIENT_SRC := libclient/client.cc \
+				 server/global.cc
 
 LIBCLIENT_OBJ := $(LIBCLIENT_SRC:.cc=.o)
 $(LIBCLIENT_OBJ): include/server.hh

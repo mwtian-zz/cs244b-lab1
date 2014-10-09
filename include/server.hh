@@ -57,7 +57,7 @@ template<> struct xdr_traits<::ReturnType>
 };
 }
 
-enum ClientError : std::uint32_t {
+enum ErrorCode : std::uint32_t {
   KEY_NOT_FOUND,
   NO_PARENT,
   HAS_CHILDREN,
@@ -65,11 +65,11 @@ enum ClientError : std::uint32_t {
   INVALID_OPERATION,
 };
 namespace xdr {
-template<> struct xdr_traits<::ClientError>
-  : xdr_integral_base<::ClientError, std::uint32_t> {
+template<> struct xdr_traits<::ErrorCode>
+  : xdr_integral_base<::ErrorCode, std::uint32_t> {
   static constexpr bool is_enum = true;
   static constexpr bool is_numeric = false;
-  static const char *enum_name(::ClientError val) {
+  static const char *enum_name(::ErrorCode val) {
     switch (val) {
     case ::KEY_NOT_FOUND:
       return "KEY_NOT_FOUND";
@@ -93,7 +93,7 @@ private:
   std::uint32_t type_;
   union {
     bool value_;
-    ClientError error_;
+    ErrorCode error_;
   };
 
 public:
@@ -182,12 +182,12 @@ public:
       return value_;
     throw xdr::xdr_wrong_union("bool_err: value accessed when not selected");
   }
-  ClientError &error() {
+  ErrorCode &error() {
     if (_xdr_field_number(type_) == 2)
       return error_;
     throw xdr::xdr_wrong_union("bool_err: error accessed when not selected");
   }
-  const ClientError &error() const {
+  const ErrorCode &error() const {
     if (_xdr_field_number(type_) == 2)
       return error_;
     throw xdr::xdr_wrong_union("bool_err: error accessed when not selected");
@@ -239,7 +239,7 @@ struct void_err {
 private:
   std::uint32_t type_;
   union {
-    ClientError error_;
+    ErrorCode error_;
   };
 
 public:
@@ -317,12 +317,12 @@ public:
     return *this;
   }
 
-  ClientError &error() {
+  ErrorCode &error() {
     if (_xdr_field_number(type_) == 1)
       return error_;
     throw xdr::xdr_wrong_union("void_err: error accessed when not selected");
   }
-  const ClientError &error() const {
+  const ErrorCode &error() const {
     if (_xdr_field_number(type_) == 1)
       return error_;
     throw xdr::xdr_wrong_union("void_err: error accessed when not selected");
@@ -375,7 +375,7 @@ private:
   std::uint32_t type_;
   union {
     longstring value_;
-    ClientError error_;
+    ErrorCode error_;
   };
 
 public:
@@ -464,12 +464,12 @@ public:
       return value_;
     throw xdr::xdr_wrong_union("string_err: value accessed when not selected");
   }
-  ClientError &error() {
+  ErrorCode &error() {
     if (_xdr_field_number(type_) == 2)
       return error_;
     throw xdr::xdr_wrong_union("string_err: error accessed when not selected");
   }
-  const ClientError &error() const {
+  const ErrorCode &error() const {
     if (_xdr_field_number(type_) == 2)
       return error_;
     throw xdr::xdr_wrong_union("string_err: error accessed when not selected");
@@ -522,7 +522,7 @@ private:
   std::uint32_t type_;
   union {
     stringvector value_;
-    ClientError error_;
+    ErrorCode error_;
   };
 
 public:
@@ -611,12 +611,12 @@ public:
       return value_;
     throw xdr::xdr_wrong_union("stringvector_err: value accessed when not selected");
   }
-  ClientError &error() {
+  ErrorCode &error() {
     if (_xdr_field_number(type_) == 2)
       return error_;
     throw xdr::xdr_wrong_union("stringvector_err: error accessed when not selected");
   }
-  const ClientError &error() const {
+  const ErrorCode &error() const {
     if (_xdr_field_number(type_) == 2)
       return error_;
     throw xdr::xdr_wrong_union("stringvector_err: error accessed when not selected");

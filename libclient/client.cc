@@ -1,18 +1,15 @@
+#include "include/client.h"
 
-#include <unistd.h>
 #include <sys/socket.h>
 
-#include <iostream>
 #include <set>
 #include <string>
 
-#include <xdrpp/srpc.h>
 #include <xdrpp/rpcbind.hh>
 #include <xdrpp/socket.h>
 
 #include <include/rpcconfig.h>
 #include <include/server.hh>
-#include <include/client.h>
 
 using namespace std;
 using namespace xdr;

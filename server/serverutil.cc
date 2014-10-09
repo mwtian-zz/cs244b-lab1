@@ -1,8 +1,6 @@
-#include "serverutil.hh"
+#include "server/serverutil.hh"
 
 #include <locale>
-
-const char SEPARATOR = '/';
 
 bool 
 isValidKey(const std::string &key) {
@@ -46,12 +44,3 @@ getNodeName(const std::string &path) {
   int len = path.length() - begin;
   return path.substr(begin, len);
 }
-
-// template<typename T>
-// std::string logResult(const std::string &content, const T &res) {
-//   if (res->type() == RESULT) {
-//     return content + " " + "Succeeded";
-//   } else {
-//     return content + " " + "Failed";
-//   }
-// }

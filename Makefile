@@ -9,7 +9,7 @@ LD := $(CXX)
 # Don't use :=, or will break first time
 XDRC = $(shell $(PKGCONFIG) --variable=xdrc xdrpp)
 
-CPPFLAGS := `$(PKGCONFIG) --cflags xdrpp` -I.
+CPPFLAGS := `$(PKGCONFIG) --cflags xdrpp` -I. -Iinclude -Iserver -Ilibclient -Ishell
 LIBDIRS := -Llibclient
 LIBS := -lclient `$(PKGCONFIG) --libs xdrpp` -ldl
 

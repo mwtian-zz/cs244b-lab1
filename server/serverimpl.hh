@@ -6,7 +6,7 @@
 #define __XDR_SERVER_SERVERIMPL_HH_INCLUDED__ 1
 
 #include "include/server.hh"
-#include "serverdb.h"
+#include "server/serverdb.h"
 
 class api_v1_server {
 public:

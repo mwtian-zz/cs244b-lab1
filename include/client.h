@@ -1,36 +1,28 @@
 #ifndef __CLIENT_H__
 #define __CLIENT_H__
 
-#include "server.hh"
-
+#include <iostream>
+#include <unistd.h>
 #include <set>
 #include <string>
+
+#include "include/server.hh"
+#include "include/global.hh"
+#include "xdrpp/srpc.h"
 
 /*
  * For server and/or library errors that must delivered to the client
  */
 class ClientException : public std::exception {
 public:
-    ClientException(enum ClientError err) { errcode = err; }
+    ClientException(enum ErrorCode err) { errcode = err; }
     virtual ~ClientException() { }
-    ClientError code() const { return errcode; }
+    ErrorCode code() const { return errcode; }
     const char *what() {
-        switch (errcode) {
-            case KEY_NOT_FOUND:
-                return "KEY NOT FOUND";
-            case NO_PARENT:
-                return "NO PARENT";
-            case HAS_CHILDREN:
-                return "HAS CHILDREN";
-            case MALFORMED_KEY:
-                return "MALFORMED KEY";
-            case INVALID_OPERATION:
-                return "INVALID OPERATION";
-        }
-        return "UNKNOWN ERROR CODE";
+        return errorCodeDetails(errcode);
     }
 private:
-    enum ClientError errcode;
+    enum ErrorCode errcode;
 };
 
 /*
